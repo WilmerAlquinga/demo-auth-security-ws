@@ -1,6 +1,6 @@
 # Demo Service for Authentication and Security with Spring Boot
 
-## Technologies
+## Technologies and Dependencies
 * Spring Boot 3
 * Spring Security 6
 * JWT
@@ -20,7 +20,7 @@ or for generate the jar file:
 >`java -jar -Dspring.config.name=application-develop demo-auth-security-ws.jar`
 
 ## Conventions
-### Database
-Database conventions: 
 ### Versioning
 For create commits we follow the conventions specified in [Convetional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+### Database
+Database conventions: 
