@@ -8,48 +8,29 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "ROLE")
+@Table(name = "role")
+@Getter
+@Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ROLE_ID")
+    @Column(name = "role_id")
     private Long roleId;
 
     private String authority;
 
-    
-
-    public Role() {
-        super();
-    }
-
-    public Role(String authority) {
-        this.authority = authority;
-    }
-
-    public Role(Long roleId, String authority) {
-        this.roleId = roleId;
-        this.authority = authority;
-    }
-
     @Override
     public String getAuthority() {
         return this.authority;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public void setAuthority(String authority) {
-        this.authority = authority;
     }
     
 }
