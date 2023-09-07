@@ -31,7 +31,7 @@ public class DemoAuthSecurityWsApplication {
 			Set<Role> roles = new HashSet<>();
 			roles.add(adminRole);
 
-			ApplicationUser user = new ApplicationUser(1L, "admin", passwordEncoder.encode("password"), roles);
+			ApplicationUser user = new ApplicationUser(1L, "admin", passwordEncoder.encode("admin"), roles);
 
 			userRepository.save(user);
 		};
