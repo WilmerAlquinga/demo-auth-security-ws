@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wsalquinga.demoauthsecurityws.dto.req.UserReqDTO;
+import com.wsalquinga.demoauthsecurityws.dto.res.LoginResDTO;
 import com.wsalquinga.demoauthsecurityws.dto.res.UserResDTO;
 import com.wsalquinga.demoauthsecurityws.service.AuthenticationService;
 
@@ -26,5 +27,10 @@ public class AuthenticationController {
             @RequestBody UserReqDTO userReqDTO) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.authenticationService.registerUser(userReqDTO.getUsername(), userReqDTO.getPassword()));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResDTO> login(@RequestBody UserReqDTO body) {
+        return ResponseEntity.ok(this.authenticationService.login(body.getUsername(), body.getPassword()));
     }
 }

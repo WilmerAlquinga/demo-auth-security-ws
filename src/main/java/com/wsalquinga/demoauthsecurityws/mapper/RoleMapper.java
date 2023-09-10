@@ -12,5 +12,5 @@ public interface RoleMapper {
 
     RoleResDTO toRes(Role role);
 
-    Set<RoleResDTO> toRes(Set<Role> roles);
+    Set<RoleResDTO> toRes(Set<Role> authorities);
 }
