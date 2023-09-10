@@ -1,8 +1,10 @@
 package com.wsalquinga.demoauthsecurityws.service;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,32 +28,22 @@ import com.wsalquinga.demoauthsecurityws.repository.UserRepository;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class AuthenticationService {
 
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private UserMapper userMapper;
-
-    @Autowired
     private RoleMapper roleMapper;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
     private TokenService tokenService;
 
     public UserResDTO registerUser(String username, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        Set<Role> roles = this.getRolesByAuthority("USER");
+        Role userRole = roleRepository.findByAuthority("USER").get();
+        Set<Role> roles = new HashSet<>();
+        roles.add(userRole);
         Set<RoleResDTO> rolesDTO = this.roleMapper.toRes(roles);
 
         ApplicationUser createdUser = this.userRepository
@@ -71,8 +63,7 @@ public class AuthenticationService {
             ApplicationUser user = this.userRepository.findByUsername(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
 
-            Set<Role> roles = this.getRolesByAuthority("USER");
-            Set<RoleResDTO> rolesDTO = this.roleMapper.toRes(roles);
+            Set<RoleResDTO> rolesDTO = this.roleMapper.toRes(new HashSet<>((Collection<? extends Role>) user.getAuthorities()));
 
             return LoginResDTO.builder()
                     .userId(user.getUserId())
@@ -83,17 +74,8 @@ public class AuthenticationService {
 
         } catch (AuthenticationException e) {
             System.out.println("Login error: " + e.getMessage());
-            System.out.println("StackTrace: " + e.getStackTrace());
             return new LoginResDTO();
         }
-    }
-
-    private Set<Role> getRolesByAuthority(String authority) {
-        Role userRole = roleRepository.findByAuthority(authority).get();
-
-        Set<Role> roles = new HashSet<>();
-        roles.add(userRole);
-        return roles;
     }
 
 }
